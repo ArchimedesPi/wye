@@ -4,24 +4,14 @@
 #include <cstring>
 #include <vector>
 
+#include "parser.tab.h"
 
 namespace Wye {
-	enum Token {
-		IDENTIFIER,
-
-		NUM_INT,
-		NUM_INT_HEX,
-		NUM_FLOAT,
-
-		WHITESPACE,
-		END,
-	};
-
 	class Lexer {
 	public:
 		Lexer(const char *input);
 
-		Token lex();
+		int lex(YYSTYPE *val);
 
 	private:
 		const char *input;

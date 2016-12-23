@@ -2,16 +2,17 @@ TOP = ..
 BIN = $(TOP)/bin/wye
 
 RAGEL = ragel
-BISON = bison
+YACC = byacc
 CXX = g++
 CXXFLAGS += -Wall -Ofast -std=c++11
 RAGELFLAGS += -G2 -C
 
 PREFIX ?= /usr/local
 
-GENERATED_SRC := lexer.cpp parser.tab.cc parser.tab.hh stack.hh
+GENERATED_FILES := lexer.cpp parser.tab.cpp parser.tab.h
+GENERATED_SRCS := $(filter-out %.h %.hh, $(GENERATED_FILES))
 SRCS=$(filter-out $(GENERATED_SRC), $(wildcard *.cpp))
-OBJS:=$(SRCS:.cpp=.o) $(GENERATED_SRC:.cpp=.o) $(GENERATED_SRC:.cc=.o)
+OBJS:=$(filter %.o, $(SRCS:.cpp=.o) $(GENERATED_SRCS:.cpp=.o) $(GENERATED_SRCS:.c=.o))
 DEPS:=$(OBJS:.o=.d)
 
 COLOR_MAGENTA:=$(shell tput setaf 5)
@@ -24,21 +25,27 @@ COLOR_RESET:=$(shell tput sgr0)
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	@echo "$(COLOR_LIGHTBLUE)srcs=$(SRCS), objs=$(SRCS)$(COLOR_RESET)"
+	@echo "$(COLOR_LIGHTBLUE)srcs=$(SRCS), objs=$(OBJS)$(COLOR_RESET)"
 	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
 
-%.o: %.cpp
+%.o: %.cpp 
 	$(CXX) -c -o $@ $< $(CFLAGS)
 
-.PHONY: lexer.rl parser.yy
-lexer.cpp: lexer.rl
-	$(RAGEL) $(RAGELFLAGS) -o lexer.cpp lexer.rl
+lexer.o: parser.tab.cpp
+wye.o: lexer.o
 
-#parser.tab.cc parser.tab.hh: parser.yy
-#	$(BISON) parser.yy
+#.PHONY: lexer.rl parser.yy
+%.cpp: %.rl
+	$(RAGEL) $(RAGELFLAGS) -o $@ $<
+
+%.tab.cpp %.tab.h: %.yy
+	$(YACC) -d -t -o $(@:.cpp=.c) $<
+	mv $(@:.cpp=.c) $@
 
 clean:
+	@echo "$(COLOR_LIGHTBLUE)srcs=$(SRCS), objs=$(OBJS)$(COLOR_RESET)"
+
 	rm -f *.d *.o $(BIN)
-	rm -f $(GENERATED_SRC)
+	rm -f $(GENERATED_FILES)
 
 -include $(DEPS)

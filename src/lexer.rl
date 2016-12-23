@@ -1,9 +1,11 @@
 /*
  * Wye's lexer
- * Implemented in Ragel/C
+ * Implemented in Ragel/C++
  */
 
 #include "lexer.h"
+#include "parser.h"
+#include "parser.tab.h"
 
 using namespace Wye;
 
@@ -16,7 +18,7 @@ using namespace Wye;
 	ident = alpha (alnum | '_')*;
 
 	main := |*
-	ident {ret=Token::IDENTIFIER; fbreak;};
+	ident {fbreak;};
 
 	space;
 	*|;
@@ -32,14 +34,20 @@ namespace Wye {
 		pe = input + strlen(input) + 1; // point Ragel to the end of the input string
 	}
 
-	Token Lexer::lex() {
-		Token ret = Token::END;
+	int Lexer::lex(YYSTYPE *val) {
+		int ret = END; // the returned token; by default this is END=0
+		// all tokens come from parser.yy
 
 		%%write exec;
 
 		if (p == eof) {
-			ret = Token::END;
+			ret = END;
 		}
 		return ret;
 	}
 }
+
+int yylex(YYSTYPE *val, ParserState *ps) {
+	return ps->lexer->lex(val);
+}
+
