@@ -1,5 +1,9 @@
 bin/*
 *.o
+*.d
+src/parser.tab.cpp
+src/parser.tab.h
+src/lexer.cpp
 
 
 ### Vim ###
