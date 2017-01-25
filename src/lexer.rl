@@ -7,9 +7,11 @@
 #include "parser.h"
 #include "parser.tab.h"
 
+#include <iostream>
+
 using namespace Wye;
 
-%%machine wye;
+%%machine wye_lexer;
 // emit the constant static data for the state machine
 %%write data;
 
@@ -40,9 +42,14 @@ namespace Wye {
 
 		%%write exec;
 
+		if (cs == wye_lexer_error) {
+			std::cerr << "Lexical error at (line:col): unknown symbol(s) `" << std::string(ts, te-ts) << "`.\n";
+		}
+
 		if (p == eof) {
 			ret = END;
 		}
+
 		return ret;
 	}
 }
