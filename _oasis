@@ -1,0 +1,25 @@
+OASISFormat: 0.4
+Name:        wye
+Version:     0.1
+Synopsis:    A compiler for the Wye language
+Authors:     Liam Marshall
+License:     GPL-3.0
+Plugins:     META (0.4), DevFiles (0.4)
+BuildTools: ocamlbuild, make
+BuildDepends: core, threads
+
+Library wye
+  Path:           src/wye
+  Modules:
+    Wye
+  InternalModules:
+    Parser,
+    Lexer
+  BuildTools+:    ocamlyacc, menhir
+  CompiledObject: best
+
+Executable wye
+  Path:       src/cli
+  MainIs:     main.ml
+  BuildDepends: wye
+  CompiledObject: best
