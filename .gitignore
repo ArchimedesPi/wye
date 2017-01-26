@@ -1,10 +1,20 @@
-bin/*
+### OCaml ###
+_build
+*.native
+*.byte
+*.docdir
+*.annot
+*.cmo
+*.cma
+*.cmi
+*.a
 *.o
-*.d
-src/parser.tab.cpp
-src/parser.tab.h
-src/lexer.cpp
+*.cmx
+*.cmxs
+*.cmxa
 
+setup.data
+setup.log
 
 ### Vim ###
 # swap
