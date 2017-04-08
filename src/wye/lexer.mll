@@ -24,6 +24,9 @@ rule tokenize =
   | ident as idt { IDENT idt }
 
   | '.' { DOT }
+  | ',' { COMMA }
+  | '!' { BANG }
+  | ':' { COLON }
   | ';' { SEMICOLON }
   | '(' { LPAREN }
   | ')' { RPAREN }
@@ -34,6 +37,7 @@ rule tokenize =
   | "=" { SET }
   | "|" { PIPE }
   | "|>" { APPLY }
+  | "->" { ARROW }
   | "=>" { FATARROW }
   | "<" | ">" | ">=" | "<=" | "==" | "!="
     as o { OP o }

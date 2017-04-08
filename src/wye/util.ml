@@ -13,8 +13,12 @@ let dump_token tok =
   | APPLY -> "apply"
   | PIPE -> "pipe"
   | FATARROW -> "fatarrow"
+  | ARROW -> "arrow"
   
   | DOT -> "dot"
+  | COMMA -> "comma"
+  | BANG -> "bang"
+  | COLON -> "colon"
   | SEMICOLON -> "semicolon"
   | LPAREN -> "lparen"
   | RPAREN -> "rparen"

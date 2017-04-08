@@ -2,8 +2,8 @@
 %token <float> FLOAT
 %token <string> IDENT
 %token <string> STR
-%token DOT, SEMICOLON
-%token ASSIGN, SET, FATARROW, PIPE, APPLY
+%token DOT, COMMA, BANG, COLON, SEMICOLON
+%token ASSIGN, SET, FATARROW, ARROW, PIPE, APPLY
 %token LPAREN, RPAREN, LCURLY, RCURLY
 %token <string> OP
 %token EOF
