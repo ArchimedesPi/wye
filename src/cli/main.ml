@@ -4,20 +4,9 @@ open Parser
 
 let program = "print $ 2 != 4.";;
 
-let dump_token tok =
-  match tok with
-  | IDENT x -> "id(" ^ x ^ ")"
-  | STRING x -> "str(" ^ x ^ ")"
-  | INT x -> "int(" ^ string_of_int x ^ ")"
-  | FLOAT x -> "float(" ^ string_of_float x ^ ")"
+using discord as d.
 
-  | DOT -> "."
-  | OP x -> "op(" ^ x ^ ")"
-  | LPAREN -> "("
-  | RPAREN -> ")"
-  | SEMICOLON -> ";"
 
-  | EOF -> "eof";;
 
 let rec lex buf =
   let tok = try Lexer.tokenize buf with
