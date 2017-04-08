@@ -1,24 +1,21 @@
 {
 open Parser
-open Printf
-
-let line_num = ref 1;;
 
 exception Lex_error of string;;
-let lexical_error msg = raise (Lex_error (
-    sprintf "Lexical error: %s (on line %d)" msg !line_num))
+let lexical_error msg = raise (Lex_error (Printf.sprintf "Lexical error: %s" msg))
 }
 
 let alpha = ['a'-'z' 'A'-'Z']
 let digit = ['0'-'9']
 let white = [' ' '\t']+
+let nl = '\n'
 
 let ident = (alpha | '_') (alpha | digit | '_')*
 
 rule tokenize =
   parse
-  | '\n' { incr line_num; tokenize lexbuf }
   | white { tokenize lexbuf }
+  | nl { Lexing.new_line lexbuf; tokenize lexbuf }
 
   | digit* as d { INT (int_of_string d) }
   | ident as idt { IDENT idt }
