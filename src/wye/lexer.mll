@@ -26,8 +26,15 @@ rule tokenize = parse
   | ';' { SEMICOLON }
   | '(' { LPAREN }
   | ')' { RPAREN }
+  | '{' { LCURLY }
+  | '}' { RCURLY }
 
-  | "<" | ">" | ">=" | "<=" | "==" | "!=" | "|" | "|>" | "="
+  | ":=" { ASSIGN }
+  | "=" { SET }
+  | "|" { PIPE }
+  | "|>" { APPLY }
+  | "=>" { FATARROW }
+  | "<" | ">" | ">=" | "<=" | "==" | "!="
     as o { OP o }
 
   | _ as c { lexical_error ("foreign character `" ^ String.make 1 c ^ "`") }

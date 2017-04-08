@@ -1,8 +1,10 @@
 %token <int> INT
 %token <float> FLOAT
 %token <string> IDENT
-%token <string> STRING
-%token DOT, SEMICOLON, LPAREN, RPAREN
+%token <string> STR
+%token DOT, SEMICOLON
+%token ASSIGN, SET, FATARROW, PIPE, APPLY
+%token LPAREN, RPAREN, LCURLY, RCURLY
 %token <string> OP
 %token EOF
 
