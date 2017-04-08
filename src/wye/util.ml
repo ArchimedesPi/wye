@@ -1,4 +1,9 @@
 open Parser
+open Lexing
+
+let dump_position lexbuf = 
+  let pos = lexbuf.lex_curr_p in
+  Printf.sprintf "%s:%d:%d" pos.pos_fname pos.pos_lnum (pos.pos_cnum - pos.pos_bol + 1) 
 
 let dump_token tok =
   match tok with
