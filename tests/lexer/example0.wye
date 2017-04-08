@@ -1,0 +1,13 @@
+let tocolor(c) = match head c
+		'#' => c | tail | parse_num base:16 | try! "Hex value malformed".
+		_ => c | get_from COLOR_TABLE | try! "No such color `$.`".
+
+using discord as d.
+
+when d:message{m}
+	where m | startswith "~color"
+	let color = m | tocolor | try_into! "Error parsing color: `$.e`" d.reply,
+		guild = m.guild
+	=>
+		role := (d.upsert_role (as_s m.author)) | d.set_role_color color.
+		d.add_role m.author, role.
