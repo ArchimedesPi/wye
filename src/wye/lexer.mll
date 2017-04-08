@@ -41,6 +41,9 @@ rule tokenize =
 
   | '"' { str_slurp (Buffer.create 20) lexbuf }
 
+  | "/*" { comment_slurp 0 lexbuf } (* eat multiline comments via a subparser *)
+  | "//" [^ '\n'] nl (* eat one-line comments *)
+
   | _ { lexical_error ("foreign character `" ^ Lexing.lexeme lexbuf ^ "`") }
   | eof { EOF }
 
@@ -53,4 +56,13 @@ and str_slurp buf =
   | [^ '"' '\\']+ { Buffer.add_string buf (Lexing.lexeme lexbuf);
                     str_slurp buf lexbuf }
   | _ { lexical_error ("illegal character `" ^ Lexing.lexeme lexbuf ^ "` inside string") }
-  | eof { lexical_error "eof in string; expected string close" }
+  | eof { lexical_error "eof in string; expected a closing string quote *somewhere*" }
+
+and comment_slurp level = 
+  parse
+  | "*/" { if level = 0 then tokenize lexbuf (* if we're closing at top level, drop back to the main lexer*)
+            else comment_slurp (level-1) lexbuf } (* otherwise decrement level, recurse. MOAR COMMENTS TO LEX. *)
+  | "/*" { comment_slurp (level+1) lexbuf } (* we hit a new comment level so increment and recurse *)
+
+  | _ { comment_slurp level lexbuf } (* eat all characters inside comments *)
+  | eof { lexical_error "eof in multiline comment; expected a closing comment delimiter *somewhere*"}
