@@ -15,7 +15,8 @@ let white = [' ' '\t']+
 
 let ident = (alpha | '_') (alpha | digit | '_')*
 
-rule tokenize = parse
+rule tokenize =
+  parse
   | '\n' { incr line_num; tokenize lexbuf }
   | white { tokenize lexbuf }
 
@@ -37,5 +38,18 @@ rule tokenize = parse
   | "<" | ">" | ">=" | "<=" | "==" | "!="
     as o { OP o }
 
-  | _ as c { lexical_error ("foreign character `" ^ String.make 1 c ^ "`") }
+  | '"' { str_slurp (Buffer.create 20) lexbuf }
+
+  | _ { lexical_error ("foreign character `" ^ Lexing.lexeme lexbuf ^ "`") }
   | eof { EOF }
+
+and str_slurp buf = 
+  parse
+  | '"' { STR (Buffer.contents buf) }
+  | '\\' 'n' { Buffer.add_char buf '\n'; str_slurp buf lexbuf}
+  | '\\' 'r' { Buffer.add_char buf '\r'; str_slurp buf lexbuf}
+  | '\\' 't' { Buffer.add_char buf '\t'; str_slurp buf lexbuf}
+  | [^ '"' '\\']+ { Buffer.add_string buf (Lexing.lexeme lexbuf);
+                    str_slurp buf lexbuf }
+  | _ { lexical_error ("illegal character `" ^ Lexing.lexeme lexbuf ^ "` inside string") }
+  | eof { lexical_error "eof in string; expected string close" }
