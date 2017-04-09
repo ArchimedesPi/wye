@@ -1,6 +1,8 @@
 open Parser
 open Lexing
 
+(* lexer utils *)
+
 let dump_position lexbuf = 
   let pos = lexbuf.lex_curr_p in
   Printf.sprintf "%s:%d:%d" pos.pos_fname pos.pos_lnum (pos.pos_cnum - pos.pos_bol + 1) 
@@ -12,7 +14,9 @@ let dump_token tok =
   | INT x -> "int(" ^ string_of_int x ^ ")"
   | FLOAT x -> "float(" ^ string_of_float x ^ ")"
 
-  | OP x -> "op(" ^ x ^ ")"
+  | ADD -> "+" | SUB -> "-" | MUL -> "*" | DIV -> "/"
+  | EQ -> "==" | NEQ -> "!=" | LT -> "<" | GT -> ">" | LEQ -> "<=" | GEQ -> ">="
+
   | ASSIGN -> "assign"
   | SET -> "set"
   | APPLY -> "apply"
@@ -30,5 +34,13 @@ let dump_token tok =
   | LCURLY -> "lcurly"
   | RCURLY -> "rcurly"
 
-  | EOF -> "eof";;
+  | USING -> "using"
+  | AS -> "as"
+  | LET -> "let"
+  | MATCH -> "match"
+  | WHEN -> "when"
+  | WHERE -> "where"
+
+  | EOF -> "eof"
+;;
 
