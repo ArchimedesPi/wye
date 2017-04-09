@@ -37,4 +37,20 @@ expr:
   | n = INT { Number (`Int n) }
   | n = FLOAT { Number (`Float n) }
 
+
+  | lhs=expr; op=binary_op; rhs=expr; { BinaryOp (op, lhs, rhs) }
+
+%inline binary_op:
+  | ADD { Addition }
+  | SUB { Subtraction }
+  | MUL { Multiplication }
+  | DIV { Division }
+
+  | EQ { Equal }
+  | NEQ { NotEqual }
+
+  | GT { GreaterThan }
+  | LT { LessThan }
+  | GEQ { GreaterThanEqual }
+  | LEQ { LessThanEqual }
 ;

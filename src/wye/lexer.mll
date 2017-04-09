@@ -65,7 +65,7 @@ rule tokenize =
   | "!=" { NEQ }
   
   | "+" { ADD }
-  | "-" { SUB } 
+  | "-" { SUB }
   | "*" { MUL }
   | "/" { DIV }
 
