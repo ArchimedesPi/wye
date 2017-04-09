@@ -3,23 +3,23 @@ open Lexing
 open Parser
 open Util
 
-let tokenize_with_error buf =
-  try (Ok (Lexer.tokenize buf)) with
-  | Lexer.Lex_error e -> Error e;;
+let parse_with_error buf =
+  try (Ok (Parser.main Lexer.tokenize buf)) with
+  | Lexer.Lex_error e -> Error e
+  (* | Parsing.Basics.Error -> Error "Parse error" *)
+;;
 
 let print_error e buf =
   Printf.printf "\n----\n%s: %s\n" (dump_position buf) e
+;;
 
-let rec lex buf =
-  let tok = tokenize_with_error buf in
-  match tok with
-  | Error e -> print_error e buf;
-  | Ok EOF -> print_endline "eof";
-  | Ok t -> (
-    print_string (dump_token t ^ "; ");
-    lex buf
-  )
-  ;;
+let rec parse_and_print buf =
+  let ast = parse_with_error buf in
+  match ast with
+  | Ok (Some a) -> print_endline (Ast.show_ast a);
+  | Ok None -> print_endline "empty source file";
+  | Error e -> print_error e buf
+;;
 
 let progin =
   if Array.length Sys.argv > 1
