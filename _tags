@@ -26,3 +26,5 @@ true: annot, bin_annot
 <src/cli/*.ml{,i,y}>: pkg_threads
 <src/cli/*.ml{,i,y}>: use_wye
 # OASIS_STOP
+
+true: use_menhir

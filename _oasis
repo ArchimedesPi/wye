@@ -14,8 +14,9 @@ Library wye
     Wye
   InternalModules:
     Parser,
-    Lexer
-  BuildTools+:    ocamlyacc, menhir
+    Lexer,
+    Util,
+  BuildTools+:    ocamllex, menhir
   CompiledObject: best
 
 Executable wye
