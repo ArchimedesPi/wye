@@ -1,3 +1,7 @@
+%{
+  open Ast;;
+%}
+
 /* literals and identifiers */
 %token <int> INT
 %token <float> FLOAT
@@ -18,11 +22,11 @@
 /* utility */
 %token EOF
 
-%start program
-%type <unit> program
+%start main
+%type <Ast.ast option> main
 
 %%
 
-program:
-  | EOF     { () }
+main:
+  | EOF { None }
 ;
