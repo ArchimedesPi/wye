@@ -1,5 +1,5 @@
 let tocolor(c) = match head c
-		'#' => c | tail | parse_num base:16 | try! "Hex value malformed".
+		"#" => c | tail | parse_num base:16 | try! "Hex value malformed".
 		_ => c | get_from COLOR_TABLE | try! "No such color `$.`".
 
 using discord as d.
