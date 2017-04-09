@@ -7,6 +7,12 @@ let lexical_error msg = raise (Lex_error (Printf.sprintf "Lexical error: %s" msg
 
 let alpha = ['a'-'z' 'A'-'Z']
 let digit = ['0'-'9']
+
+let decimal = '.' digit*
+let exponential = ['e' 'E'] ['-' '+']? digit+
+let int = '-'? digit*
+let float = '-'? digit* decimal? exponential?
+
 let white = [' ' '\t']+
 let nl = '\n'
 
@@ -17,8 +23,9 @@ rule tokenize =
   | white { tokenize lexbuf }
   | nl { Lexing.new_line lexbuf; tokenize lexbuf }
 
-  | digit* as d { INT (int_of_string d) }
-  | ident as idt { IDENT idt }
+  | int as d { INT (int_of_string d) }
+  | float as d { FLOAT (float_of_string d) }
+
 
   | '.' { DOT }
   | ',' { COMMA }
