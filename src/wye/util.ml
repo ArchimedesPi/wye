@@ -1,6 +1,12 @@
 open Parser
 open Lexing
 
+(* general utilities *)
+let create_hashtbl size init =
+  let tbl = Hashtbl.create size in
+  List.iter (fun (k, v) -> Hashtbl.add tbl k v) init;
+  tbl
+
 (* lexer utils *)
 
 let dump_position lexbuf = 
