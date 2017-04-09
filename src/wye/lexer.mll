@@ -2,7 +2,17 @@
 open Parser
 
 exception Lex_error of string;;
-let lexical_error msg = raise (Lex_error (Printf.sprintf "Lexical error: %s" msg))
+let lexical_error msg = raise (Lex_error (Printf.sprintf "Lexical error: %s" msg));;
+
+let keyword_table =
+  Util.create_hashtbl 8 [
+    ("using", USING);
+    ("as", AS);
+    ("let", LET);
+    ("match", MATCH);
+    ("when", WHEN);
+    ("where", WHERE);
+  ];;
 }
 
 let alpha = ['a'-'z' 'A'-'Z']
@@ -26,6 +36,9 @@ rule tokenize =
   | int as d { INT (int_of_string d) }
   | float as d { FLOAT (float_of_string d) }
 
+  | ident as idt { try let keywd_token = Hashtbl.find keyword_table idt in
+                    keywd_token
+                   with Not_found -> IDENT idt }
 
   | '.' { DOT }
   | ',' { COMMA }
