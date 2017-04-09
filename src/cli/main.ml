@@ -1,5 +1,5 @@
 open Core.Std
-open Lexing
+open Wye
 open Parser
 open Util
 
@@ -21,16 +21,18 @@ let rec parse_and_print buf =
   | Error e -> print_error e buf
 ;;
 
-let progin =
-  if Array.length Sys.argv > 1
-  then open_in Sys.argv.(1)
-  else stdin in
-let file_name = if progin = stdin then "stdin" else Sys.argv.(1) in
-let lexbuf = Lexing.from_channel progin in
-  lexbuf.Lexing.lex_curr_p <- {
-    Lexing.pos_fname = file_name;
-    pos_lnum = 1;
-    pos_bol = 0;
-    pos_cnum = 0; 
-  };
-  lex lexbuf
+let () =
+  let progin =
+    if Array.length Sys.argv > 1
+    then open_in Sys.argv.(1)
+    else stdin in
+  let file_name = if progin = stdin then "stdin" else Sys.argv.(1) in
+  let lexbuf = Lexing.from_channel progin in
+    lexbuf.Lexing.lex_curr_p <- {
+      Lexing.pos_fname = file_name;
+      pos_lnum = 1;
+      pos_bol = 0;
+      pos_cnum = 0; 
+    };
+    parse_and_print lexbuf;
+;;
