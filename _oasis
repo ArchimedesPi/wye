@@ -18,6 +18,7 @@ Library wye
     Util,
   BuildTools+:    ocamllex, menhir
   CompiledObject: best
+  BuildDepends: ppx_deriving.std
 
 Executable wye
   Path:       src/cli
