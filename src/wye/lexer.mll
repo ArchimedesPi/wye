@@ -56,8 +56,18 @@ rule tokenize =
   | "|>" { APPLY }
   | "->" { ARROW }
   | "=>" { FATARROW }
-  | "<" | ">" | ">=" | "<=" | "==" | "!="
-    as o { OP o }
+
+  | "<" { LT }
+  | ">" { GT }
+  | "<=" { LEQ } 
+  | ">=" { GEQ }
+  | "==" { EQ }
+  | "!=" { NEQ }
+  
+  | "+" { ADD }
+  | "-" { SUB } 
+  | "*" { MUL }
+  | "/" { DIV }
 
   | '"' { str_slurp (Buffer.create 20) lexbuf }
 
