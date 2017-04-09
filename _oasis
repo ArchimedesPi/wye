@@ -20,8 +20,22 @@ Library wye
   CompiledObject: best
   BuildDepends: ppx_deriving.std
 
-Executable wye
+Executable "wyec"
   Path:       src/cli
   MainIs:     main.ml
-  BuildDepends: wye
   CompiledObject: best
+  BuildDepends: wye
+  Install: true
+
+Executable test
+  Path:     tests
+  MainIs:   test.ml
+  Install:  false
+  Build$:   flag(tests)
+  BuildDepends: oUnit, wye
+
+Test main
+  Run$: flag(tests)
+  TestTools: test
+  Command: $test
+  WorkingDirectory: tests
