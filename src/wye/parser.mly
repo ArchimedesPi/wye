@@ -29,4 +29,12 @@
 
 main:
   | EOF { None }
+  | v = expr; EOF { Some v }
+
+expr:
+  /* literals */
+  | s = STR { String s }
+  | n = INT { Number (`Int n) }
+  | n = FLOAT { Number (`Float n) }
+
 ;
