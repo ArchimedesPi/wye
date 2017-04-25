@@ -25,7 +25,7 @@
 %token EOL
 
 %start main
-%type <Ast.ast option> main
+%type <Ast.ast list option> main
 
 %%
 
