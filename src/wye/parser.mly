@@ -30,8 +30,8 @@
 %%
 
 main:
-  | EOF { None }
-  | v = expr; EOF { Some v }
+  | x = option(nonempty_list(terminated(statement, DOT))); EOF { x }
+
 
 expr:
   /* literals */
