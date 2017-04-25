@@ -44,6 +44,11 @@ expr:
   | v=STR {Ast.String v}
 /* var */
   | var=fq_ident { Ast.Variable var }
+/* operations */
+  | lhs=expr; op=binary_op; rhs=expr {Ast.BinaryOp (op, lhs, rhs)}
+  | func=fq_ident;
+    args=delimited(LPAREN, separated_list(COMMA, expr), RPAREN) {Ast.Call (func, args)}
+
 func_proto:
   name = IDENT; LPAREN; args = proto_args; RPAREN { Ast.Prototype (name, args) }
 
@@ -59,7 +64,6 @@ fq_ident:
    | top_name :: rev_path -> List.rev fq_path; (top_name, List.rev rev_path)
    | [] -> raise (Internal_error "Compiler bug: expected *something* in fq_path")}
 
-  | lhs=expr; op=binary_op; rhs=expr; { BinaryOp (op, lhs, rhs) }
 %inline qualifier:
   | CONST { Ast.Const }
   | MUT { Ast.Mut }
