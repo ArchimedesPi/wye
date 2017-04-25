@@ -19,7 +19,7 @@ Library wye
     Ast
   BuildTools+:    ocamllex, menhir
   CompiledObject: best
-  BuildDepends: ppx_deriving.std
+  BuildDepends: llvm, ppx_deriving.std
 
 Executable "wyec"
   Path:       src/cli
