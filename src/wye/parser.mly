@@ -38,10 +38,10 @@ statement:
   | DEF; f=func_proto; SET; b=nonempty_list(statement) { Ast.FuncBind (f, b) }
 
 expr:
-  /* literals */
-  | s = STR { String s }
-  | n = INT { Number (`Int n) }
-  | n = FLOAT { Number (`Float n) }
+/* literals */
+  | v=INT {Ast.Number (`Int v)}
+  | v=FLOAT {Ast.Number (`Float v)}
+  | v=STR {Ast.String v}
 
 
   | lhs=expr; op=binary_op; rhs=expr; { BinaryOp (op, lhs, rhs) }
