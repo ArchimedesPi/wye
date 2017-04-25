@@ -44,6 +44,14 @@ expr:
   | v=STR {Ast.String v}
 /* var */
   | var=fq_ident { Ast.Variable var }
+func_proto:
+  name = IDENT; LPAREN; args = proto_args; RPAREN { Ast.Prototype (name, args) }
+
+proto_args:
+  args = separated_list(COMMA, proto_argdef) { args }
+
+proto_argdef:
+  name = IDENT; type_annotation = option(IDENT) { (name, type_annotation) }
 
 fq_ident:
   fq_path=separated_nonempty_list(DOT, IDENT) {
