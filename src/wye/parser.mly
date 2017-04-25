@@ -32,6 +32,10 @@
 main:
   | x = option(nonempty_list(terminated(statement, DOT))); EOF { x }
 
+statement:
+  | x=expr { x }
+  | LET; q=option(qualifier); var=fq_ident; SET; value=expr { Ast.VarBind (var, value, q) }
+  | DEF; f=func_proto; SET; b=nonempty_list(statement) { Ast.FuncBind (f, b) }
 
 expr:
   /* literals */
@@ -41,6 +45,9 @@ expr:
 
 
   | lhs=expr; op=binary_op; rhs=expr; { BinaryOp (op, lhs, rhs) }
+%inline qualifier:
+  | CONST { Ast.Const }
+  | MUT { Ast.Mut }
 
 %inline binary_op:
   | ADD { Addition }
