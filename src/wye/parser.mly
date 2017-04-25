@@ -43,6 +43,11 @@ expr:
   | v=FLOAT {Ast.Number (`Float v)}
   | v=STR {Ast.String v}
 
+fq_ident:
+  fq_path=separated_nonempty_list(DOT, IDENT) {
+   match fq_path with
+   | top_name :: rev_path -> List.rev fq_path; (top_name, List.rev rev_path)
+   | [] -> raise (Internal_error "Compiler bug: expected *something* in fq_path")}
 
   | lhs=expr; op=binary_op; rhs=expr; { BinaryOp (op, lhs, rhs) }
 %inline qualifier:
