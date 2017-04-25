@@ -22,7 +22,7 @@ let keyword_table =
 let alpha = ['a'-'z' 'A'-'Z']
 let digit = ['0'-'9']
 
-let decimal = '.' digit*
+let decimal = '.' digit+
 let exponential = ['e' 'E'] ['-' '+']? digit+
 let int = '-'? digit*
 let float = '-'? digit* decimal? exponential?
