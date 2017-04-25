@@ -1,5 +1,7 @@
 %{
   open Ast;;
+
+  exception Internal_error of string;;
 %}
 
 /* literals and identifiers */
