@@ -43,10 +43,15 @@ let dump_token tok =
   | USING -> "using"
   | AS -> "as"
   | LET -> "let"
+  | DEF -> "def"
   | MATCH -> "match"
   | WHEN -> "when"
   | WHERE -> "where"
 
+  | MUT -> "mut"
+  | CONST -> "const"
+
   | EOF -> "eof"
+  | EOL -> "" (* we don't care about EOLs, return the empty string *)
 ;;
 
