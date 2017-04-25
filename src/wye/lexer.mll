@@ -88,6 +88,7 @@ and str_slurp buf =
   | '\\' 'n' { Buffer.add_char buf '\n'; str_slurp buf lexbuf}
   | '\\' 'r' { Buffer.add_char buf '\r'; str_slurp buf lexbuf}
   | '\\' 't' { Buffer.add_char buf '\t'; str_slurp buf lexbuf}
+  | '\\' '\\' { Buffer.add_char buf '\\'; str_slurp buf lexbuf}
   | [^ '"' '\\']+ { Buffer.add_string buf (Lexing.lexeme lexbuf);
                     str_slurp buf lexbuf }
   | _ { lexical_error ("illegal character `" ^ Lexing.lexeme lexbuf ^ "` inside string") }
