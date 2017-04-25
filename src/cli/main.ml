@@ -1,4 +1,3 @@
-open Core.Std
 open Wye
 open Parser
 open Util
