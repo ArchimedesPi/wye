@@ -42,6 +42,8 @@ expr:
   | v=INT {Ast.Number (`Int v)}
   | v=FLOAT {Ast.Number (`Float v)}
   | v=STR {Ast.String v}
+/* var */
+  | var=fq_ident { Ast.Variable var }
 
 fq_ident:
   fq_path=separated_nonempty_list(DOT, IDENT) {
