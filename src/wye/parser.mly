@@ -10,7 +10,8 @@
 
 /* keywords */
 %token USING, AS
-%token LET, MATCH, WHEN, WHERE
+%token DEF, LET, MATCH, WHEN, WHERE
+%token MUT, CONST
 
 /* operators */
 %token DOT, COMMA, BANG, COLON, SEMICOLON
@@ -21,6 +22,7 @@
 
 /* utility */
 %token EOF
+%token EOL
 
 %start main
 %type <Ast.ast option> main

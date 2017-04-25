@@ -8,10 +8,14 @@ let keyword_table =
   Util.create_hashtbl 8 [
     ("using", USING);
     ("as", AS);
+    ("def", DEF);
     ("let", LET);
     ("match", MATCH);
     ("when", WHEN);
     ("where", WHERE);
+
+    ("mut", MUT);
+    ("const", CONST);
   ];;
 }
 
@@ -74,6 +78,7 @@ rule tokenize =
   | "/*" { comment_slurp 0 lexbuf } (* eat multiline comments via a subparser *)
   | "//" [^ '\n'] nl (* eat one-line comments *)
 
+  | nl { EOL }
   | _ { lexical_error ("foreign character `" ^ Lexing.lexeme lexbuf ^ "`") }
   | eof { EOF }
 
