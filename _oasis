@@ -16,7 +16,8 @@ Library wye
     Parser,
     Lexer,
     Util,
-    Ast
+    Ast,
+    Codegen
   BuildTools+:    ocamllex, menhir
   CompiledObject: best
   BuildDepends: llvm, ppx_deriving.std

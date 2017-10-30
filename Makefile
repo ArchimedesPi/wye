@@ -1,41 +1,22 @@
-# OASIS_START
-# DO NOT EDIT (digest: a3c674b4239234cbbe53afe090018954)
+build:
+	jbuilder build @install
 
-SETUP = ocaml setup.ml
+test:
+	jbuilder runtest
 
-build: setup.data
-	$(SETUP) -build $(BUILDFLAGS)
+doc:
+	jbuilder build @doc
 
-doc: setup.data build
-	$(SETUP) -doc $(DOCFLAGS)
+pin:
+	opam pin add .
 
-test: setup.data build
-	$(SETUP) -test $(TESTFLAGS)
+repin: build
+	opam upgrade wye
 
-all:
-	$(SETUP) -all $(ALLFLAGS)
+build-all:
+	jbuilder build --workspace jbuild-workspace.dev @install
 
-install: setup.data
-	$(SETUP) -install $(INSTALLFLAGS)
+test-all:
+	jbuilder build --workspace jbuild-workspace.dev @runtest
 
-uninstall: setup.data
-	$(SETUP) -uninstall $(UNINSTALLFLAGS)
-
-reinstall: setup.data
-	$(SETUP) -reinstall $(REINSTALLFLAGS)
-
-clean:
-	$(SETUP) -clean $(CLEANFLAGS)
-
-distclean:
-	$(SETUP) -distclean $(DISTCLEANFLAGS)
-
-setup.data:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-configure:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-.PHONY: build doc test all install uninstall reinstall clean distclean configure
-
-# OASIS_STOP
+.PHONY: build test pin repin build-all test-all doc

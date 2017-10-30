@@ -1,6 +1,6 @@
 open Wye
+open Wye.Util
 open Parser
-open Util
 
 module T = ANSITerminal
 
@@ -33,9 +33,11 @@ let rec repl () =
   T.print_string [T.Bold; T.green] "wye(.)> "; flush stdout;
 
   try
-    let input_line = input_line stdin ^ "\n" in
-      if String.length input_line = 0 then repl ();
-    let lexbuf = Lexing.from_string input_line in
+    let in_line = input_line stdin in
+      if in_line = "." then repl ();
+    let input = if in_line.[(String.length in_line) - 1] = '.'
+                  then in_line else in_line ^ "." in
+    let lexbuf = Lexing.from_string input in
       lexbuf.Lexing.lex_curr_p <- lex_start_pos "repl";
     let ast = parse_with_error lexbuf in
       dump_parse_res ast lexbuf;

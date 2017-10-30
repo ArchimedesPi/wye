@@ -61,7 +61,7 @@ proto_argdef:
   name = IDENT; type_annotation = option(IDENT) { (name, type_annotation) }
 
 fq_ident:
-  fq_path=separated_nonempty_list(DOT, IDENT) {
+  fq_path=separated_nonempty_list(COLON, IDENT) {
    match fq_path with
    | top_name :: rev_path -> List.rev fq_path; (top_name, List.rev rev_path)
    | [] -> raise (Internal_error "Compiler bug: expected *something* in fq_path")}

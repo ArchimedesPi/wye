@@ -1,0 +1,12 @@
+(jbuild_version 1)
+
+(library
+	((name wye)
+	 (libraries (llvm ppx_deriving.std))
+	 (preprocess (pps (ppx_deriving.std)))
+	))
+
+(menhir
+	((modules (parser))))
+
+(ocamllex (lexer))

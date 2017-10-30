@@ -1,0 +1,7 @@
+lib: [
+  "_build/install/default/lib/wye/META" {"META"}
+  "_build/install/default/lib/wye/opam" {"opam"}
+]
+bin: [
+  "_build/install/default/bin/wyec" {"wyec"}
+]
